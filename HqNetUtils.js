@@ -269,6 +269,10 @@ const reqMock = async function (){
     console.log("result:",data);
    
 }
+/*
+
+npm install lmsp_scripts -g git+https://github.com/HeHuiqi/lmsp_scripts.git
+*/
 
 const HqNetUtils = {
     login,
