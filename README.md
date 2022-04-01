@@ -1,9 +1,11 @@
 # Le tme skip speak script
+## 必要条件
+安装 node https://nodejs.org/zh-cn/
 
-## 安装
-
+## 安装脚本
 ```
-npm install lmsp_scripts
+# 在终端执行如下命令
+npm install lmsp_scripts -g
 
 ```
 
@@ -30,7 +32,7 @@ npm install lmsp_scripts
 
 ```
 
-## 运行
+## 运行脚本
 打开一个终端输入命令
 ```
 # 根据提示输入相应信息
