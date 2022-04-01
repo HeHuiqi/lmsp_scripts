@@ -208,7 +208,7 @@ async function test(){
     currentAccount = acccounts[accountIndex];
     await HqNetUtils.login(currentAccount);
 };
-test();
+// test();
 function start() {
 
     readConfig();
@@ -267,6 +267,6 @@ function start() {
     });
 }
 
-// start();
+start();
 
 
