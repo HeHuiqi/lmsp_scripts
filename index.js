@@ -12,8 +12,8 @@ let accountIndex = 0; //
 let reqDelay = 10; //秒
 
 let isEndTask = false;
-let acccounts = [];
-let currentAccount = acccounts[accountIndex]
+let accounts = [];
+let currentAccount = accounts[accountIndex]
 
 async function doWordTask(taskId, nextAccountCallback) {
 
@@ -28,12 +28,12 @@ async function doWordTask(taskId, nextAccountCallback) {
     let doWordResult = await HqNetUtils.finishWordTask(game_id, errorsCount, totalCount, wordIDs);
 
     if (doWordResult.energy_now == 0) {
-        if (accountIndex < acccounts.length) {
+        if (accountIndex < accounts.length) {
             taskId = 1;
             const tip = `此账号:${currentAccount.email} 没有精力了，休息一下吧！`;
             console.log(tip);
             accountIndex = accountIndex + 1;
-            currentAccount = acccounts[accountIndex];
+            currentAccount = accounts[accountIndex];
             nextAccountCallback(currentAccount);
 
         } else {
@@ -108,11 +108,11 @@ async function doStoryTask(taskId, nextAccountCallback) {
     let doWordResult = await HqNetUtils.finishTask(taskId, game_id);
     if (doWordResult.energy_now == 0) {
         // console.log('没有精力了，休息一下吧！');
-        if (accountIndex < acccounts.length) {
+        if (accountIndex < accounts.length) {
             const tip = `此账号:${currentAccount.email} 没有精力了，休息一下吧！`;
             console.log(tip);
             accountIndex = accountIndex + 1;
-            currentAccount = acccounts[accountIndex];
+            currentAccount = accounts[accountIndex];
             nextAccountCallback(currentAccount);
 
         } else {
@@ -214,34 +214,34 @@ function readConfig() {
     // console.log("filePath:",filePath);
 
     const configs = HqFileUtil.readFile(filePath);
-    if (configs.acccounts) {
-        acccounts = configs.acccounts;
+    if (configs.accounts) {
+        accounts = configs.accounts;
     }
-    return acccounts;
+    return accounts;
 }
 
 async function test() {
     HqFileUtil.createSaveFile();
     readConfig();
-    // console.log('acccounts:',acccounts);
-    if (acccounts.length == 0) {
+    // console.log('accounts:',accounts);
+    if (accounts.length == 0) {
         console.log('请在 HqConfig.json 文件中配置好自己账号');
         exit(0);
     }
-    currentAccount = acccounts[accountIndex];
+    currentAccount = accounts[accountIndex];
     await HqNetUtils.login(currentAccount);
 };
 // test();
 function start() {
     HqFileUtil.createSaveFile();
     readConfig();
-    // console.log('acccounts:',acccounts);
-    if (acccounts.length == 0) {
+    // console.log('accounts:',accounts);
+    if (accounts.length == 0) {
         console.log('请在 HqConfig.json 文件中配置好自己账号');
 
         exit(0);
     }
-    currentAccount = acccounts[accountIndex];
+    currentAccount = accounts[accountIndex];
     // main();
     // return;
 

@@ -20,7 +20,7 @@ npm install lmsp_scripts -g git+https://github.com/HeHuiqi/lmsp_scripts.git
 ```
 {
     "note": "write your account info",
-    "acccounts": [
+    "accounts": [
         {
             "email": "12345678@qq.com",
             "password": "12345678",
