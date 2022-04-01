@@ -210,7 +210,7 @@ async function test(){
 };
 // test();
 function start() {
-
+    HqFileUtil.createSaveFile();
     readConfig();
     // console.log('acccounts:',acccounts);
     if (acccounts.length == 0) {

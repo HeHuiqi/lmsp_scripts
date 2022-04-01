@@ -5,7 +5,11 @@
 ## 安装脚本
 ```
 # 在终端执行如下命令
+
 npm install lmsp_scripts -g
+# 或者
+npm install lmsp_scripts -g git+https://github.com/HeHuiqi/lmsp_scripts.git
+
 
 ```
 
