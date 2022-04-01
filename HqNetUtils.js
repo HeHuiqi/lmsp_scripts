@@ -42,6 +42,7 @@ async function login(account){
     console.log('开始登录。。。。。',account.email);
     let loginTokenInfo;
 
+/*
     let currentTime = new Date();
     currentTime = currentTime.getTime()/1000;
     const savedToken = HqFileUtil.readToken(account.email);
@@ -105,8 +106,9 @@ async function login(account){
             data: appState,
         };
     }
+
+    */
    
-/*
     try {
         const authLogin = await reqAuthToken(account.email,account.password,account.deviceToken);
         // console.log('authLogin:',authLogin.data);
@@ -122,7 +124,7 @@ async function login(account){
         }
         const auth_token = selectProfile.auth_token;
         const loginToken = selectProfile.token;
-        loginTokenInfo  = await decryptAuthToken(auth_token,loginToken,deviceToken);
+        loginTokenInfo  = await decryptAuthToken(auth_token,loginToken,account.deviceToken);
         appState.token = loginTokenInfo.data.token;
         console.log('登录成功：',appState);
         // console.log('登录成功!');
@@ -132,7 +134,6 @@ async function login(account){
         console.log('登录发生错误：',error);
 
     }
-*/
 
     // appState.deviceToken = 'lPuSP3yzzrjumOtq';
     // appState.token = 'DlAwxrdteFj7zsMNXL/AoHP0rf334emBbIuBGact4RVYBn+rLK+Sjq/NMMnZSCKdSdHZgIJxhwXHzd9vFY+UkIbg8h2qx0s3yPVTaVkyOCw5kn+XW9JFR2LyjilIBx9ZR/D+yrTcyQZ6/ZK3gwyP2W62Wq0Q9mhqctnhl3aCpmq7EEExShrQcTPHhg8vKPl1D+h6V7LOydSpHiDVz2KM3F6/QFSRFHjoTwt0+gSqUAsRNr3ueo/agfsTyKPwLQ0B+RvP3T1ROAYBRKWw7TJbIJvUkTviKwz2YeWIaPSN984ucE+XGT1p5OHn5z0hwwLHKNgqkO6tFIoR4aixGGrJmxv9qFoUtVXXv+8ABHte0m3hsCdHFhXL0dpenTo7ID/vltb+aaIIBtrU3ATWSG4E7yFgaLZ31Rdl02aRKpY0ekd1Lg6Hh0QXaXdo/hxzrRm7yPBpyrkcpR5Txzugv3bu89aqigtMi3DcbOuRfi87b05Rl4e8bG8ooBER3QLAb0vxaa2BQmSqFY/WiiT51V5A+coe8xPGJKvGTvrG5TEcB4CqE+NlcGP8KFu3yzYKDB1RDiNW+nuY/4Zy1do6p6iWTitAw1tPpAyqu1hqofbCBqYQbtI6rZAidJLBznhA+RDhP4UlwN9+JUdrb4Vbroh6/0QsgPkUwJ9nIqp7ooj48Nuv1nq1kNsbvgEJ+ZJVgnHggMe3cVKZ2eW2irCQQb11Ujs=';

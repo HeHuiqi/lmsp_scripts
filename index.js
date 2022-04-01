@@ -10,6 +10,8 @@ let currentTaskType = 1; // 任务类型
 let currentTaskId = 1; // 任务id
 let accountIndex = 0; // 
 let reqDelay = 10; //秒
+
+let isEndTask = false;
 let acccounts = [];
 let currentAccount = acccounts[accountIndex]
 
@@ -36,6 +38,8 @@ async function doWordTask(taskId, nextAccountCallback) {
 
         } else {
             console.log('没有账号可学习了');
+            isEndTask = true;
+            nextAccountCallback(null);
         }
     } else {
         console.log('doWordResult.energy_spent-inner:', doWordResult.energy_spent);
@@ -51,13 +55,14 @@ async function startDoWordTask(account) {
 
     try {
         const loginInfo = await HqNetUtils.login(account);
-        
-        if(loginInfo === undefined || loginInfo === null){
+
+        if (loginInfo === undefined || loginInfo === null) {
             console.log('没有选择角色或角色学习时间期了');
             return;
         }
 
         const interval = reqDelay * 1000;
+        let timer;
         const doTask = async (taskId) => {
             // 每个账号做一次任务
             await doWordTask(taskId, (nextAccount) => {
@@ -65,18 +70,26 @@ async function startDoWordTask(account) {
                 (async () => {
                     if (nextAccount) {
                         await startDoWordTask(nextAccount);
+
                     } else {
                         if (timer) {
                             clearInterval(timer);
                         }
                         console.log('没有账号可学习了');
+                        isEndTask = true;
                     }
                 })();
             });
         };
-        let timer = setInterval(async () => {
-            await doTask(currentTaskId);
+        timer = setInterval(async () => {
 
+            if (isEndTask == false) {
+                await doTask(currentTaskId);
+            } else {
+                if (timer) {
+                    clearInterval(timer);
+                }
+            }
         }, interval);
         await doTask(currentTaskId);
 
@@ -103,7 +116,8 @@ async function doStoryTask(taskId, nextAccountCallback) {
             nextAccountCallback(currentAccount);
 
         } else {
-            console.log('没有账号可学习了');
+            isEndTask = true;
+            nextAccountCallback(null);
         }
     } else {
         console.log('doWordResult.energy_spent:', doWordResult.energy_spent);
@@ -117,11 +131,11 @@ async function doStoryTask(taskId, nextAccountCallback) {
 async function startDoStoryTask(account) {
     try {
         const loginInfo = await HqNetUtils.login(account);
-        if(loginInfo === undefined || loginInfo === null){
+        if (loginInfo === undefined || loginInfo === null) {
             console.log('没有选择角色或角色学习时间期了');
             return;
         }
-
+        let timer;
         const interval = reqDelay * 1000;
         const doTask = async (taskId) => {
             // 每个账号做一次任务
@@ -131,15 +145,24 @@ async function startDoStoryTask(account) {
                     if (nextAccount) {
                         await startDoStoryTask(nextAccount);
                     } else {
-                        clearInterval(timer);
-
+                        if (timer) {
+                            clearInterval(timer);
+                        }
                         console.log('没有账号可学习了');
+                        isEndTask = true;
                     }
                 })();
             });
         };
-        let timer = setInterval(async () => {
-            await doTask(currentTaskId);
+        timer = setInterval(async () => {
+
+            if (isEndTask == false) {
+                await doTask(currentTaskId);
+            } else {
+                if (timer) {
+                    clearInterval(timer);
+                }
+            }
         }, interval);
         await doTask(currentTaskId);
 
@@ -168,36 +191,36 @@ async function main() {
 
 const path = require('path');
 const readline = require('readline');
-const { exit} = require('process');
+const { exit } = require('process');
 
-function readConfig(){
+function readConfig() {
     const currentDir = process.cwd();
 
     const argv = process.argv;
 
     let inputConfigFile = argv[2];
-    if(inputConfigFile){
+    if (inputConfigFile) {
         defaulConfigFile = inputConfigFile;
     }
 
     const isExistConfig = HqFileUtil.fileIsExists(defaulConfigFile);
-    if(isExistConfig === false){
+    if (isExistConfig === false) {
         console.log('请在 HqConfig.json 文件中配置好自己账号');
         exit(0);
     }
 
-    
-    const filePath = path.join(currentDir,defaulConfigFile);
+
+    const filePath = path.join(currentDir, defaulConfigFile);
     // console.log("filePath:",filePath);
-    
+
     const configs = HqFileUtil.readFile(filePath);
-    if(configs.acccounts){
+    if (configs.acccounts) {
         acccounts = configs.acccounts;
     }
     return acccounts;
 }
 
-async function test(){
+async function test() {
     HqFileUtil.createSaveFile();
     readConfig();
     // console.log('acccounts:',acccounts);
@@ -215,7 +238,7 @@ function start() {
     // console.log('acccounts:',acccounts);
     if (acccounts.length == 0) {
         console.log('请在 HqConfig.json 文件中配置好自己账号');
-    
+
         exit(0);
     }
     currentAccount = acccounts[accountIndex];
