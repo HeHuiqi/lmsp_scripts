@@ -8,7 +8,7 @@
 
 npm install lmsp_scripts -g
 # 或者
-npm install lmsp_scripts -g git+https://github.com/HeHuiqi/lmsp_scripts.git
+npm install -g git+https://github.com/HeHuiqi/lmsp_scripts.git
 
 
 ```
